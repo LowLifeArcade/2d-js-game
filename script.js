@@ -94,7 +94,7 @@ function animate() {
     }
     if (Math.abs(player.velocity.x) < 1.3) player.velocity.x = 0
 
-    // platform position detection
+    // platform position detection TODO: Refactor to handle multiple platforms
     if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
         player.velocity.y = 0
         player.jumping = false
@@ -109,20 +109,19 @@ window.addEventListener('keydown', ({keyCode}) => {
     switch (keyCode) {
         case 65:
             console.log('left')
-            // player.velocity.x -=5
             keys.left.pressed = true
-            if (player.velocity.x < 10){
-            }
+            // if (Math.abs(player.velocity.x) < 10){
+            // }
             break;
         case 68:
             console.log('right')
-            // player.velocity.x +=5
             keys.right.pressed = true
-            if (player.velocity.x < 10){
-            }
+            // if (Math.abs(player.velocity.x)< 10){
+            // }
             break;
         case 83:
             console.log('down')
+            player.height = 30
             break;
         case 32:
             console.log('up')
@@ -135,24 +134,24 @@ window.addEventListener('keydown', ({keyCode}) => {
             break;
     }
 })
+
 window.addEventListener('keyup', ({keyCode}) => {
     switch (keyCode) {
         case 65:
             console.log('left')
             keys.left.pressed = false
-            // player.velocity.x +=5
-            if (player.velocity.x < 10){
-            }
+            // if (Math.abs(player.velocity.x) < 10){
+            // }
             break;
         case 68:
             console.log('right')
             keys.right.pressed = false
-            // player.velocity.x -=5
-            if (player.velocity.x < 10){
-            }
+            // if (Math.abs(player.velocity.x) < 10){
+            // }
             break;
         case 83:
             console.log('down')
+            player.height = 50
             break;
         case 32:
             console.log('up')
