@@ -5,7 +5,7 @@ let c = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const gravity = 0.4;
+const gravity = 1;
 /**
  * Player class
  */
@@ -19,7 +19,7 @@ function Player() {
         y: 0,
     };
     this.width = 30;
-    this.height = 30;
+    this.height = 50;
     this.jumping = false
 }
 
@@ -38,7 +38,7 @@ Player.prototype.update = function () {
         + this.height 
         + this.velocity.y 
         <= canvas.height - 20) {
-        this.velocity.y += gravity;
+        this.velocity.y = this.velocity.y  + gravity;
         this.jumping = true
     } else {
         this.velocity.y = 0
@@ -68,14 +68,14 @@ function animate() {
             player.velocity.x -= player.velocity.x /5
             return;
         };
-        if (keys.right.pressed) player.velocity.x += 2 
-        if (keys.left.pressed) player.velocity.x += -2 
+        if (keys.right.pressed) player.velocity.x += 1.4
+        if (keys.left.pressed) player.velocity.x += -1.4 
     } else {
         if (player.jumping) {
             player.velocity.x -= player.velocity.x / 10
         } else player.velocity.x -= player.velocity.x / 5
     }
-    if (Math.abs(player.velocity.x) < 2) player.velocity.x = 0
+    if (Math.abs(player.velocity.x) < 1.3) player.velocity.x = 0
 }
 
 animate();
@@ -104,7 +104,7 @@ window.addEventListener('keydown', ({keyCode}) => {
         case 32:
             console.log('up')
             if (player.jumping === false) {
-                player.velocity.y -= 10
+                player.velocity.y -= 20
                 player.jumping = true 
             }
             break;
@@ -133,9 +133,8 @@ window.addEventListener('keyup', ({keyCode}) => {
             break;
         case 32:
             console.log('up')
-            if (player.jumping === false) {
-                player.velocity.y -= 10
-                player.jumping = true 
+            if (player.jumping === true) {
+                player.velocity.y -= player.velocity.y /2 + gravity 
             }
             break;
         default:
