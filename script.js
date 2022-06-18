@@ -13,7 +13,7 @@ const gravity = 1;
 function Player() {
     this.position = {
         x: 100,
-        y: 450,
+        y: 400,
     };
     this.velocity = {
         x: 0,
