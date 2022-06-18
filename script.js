@@ -3,16 +3,17 @@ const canvas = document.querySelector('canvas');
 let c = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.height = 500;
 
 const gravity = 1;
+
 /**
  * Player class
  */
 function Player() {
     this.position = {
         x: 100,
-        y: 100,
+        y: 450,
     };
     this.velocity = {
         x: 0,
@@ -46,7 +47,21 @@ Player.prototype.update = function () {
     }
 };
 
+function Platform() {
+    this.position = {
+        x:200,
+        y: 300
+    }
+    this.width = 200
+    this.height = 20
+    this.draw = function() {
+        c.fillStyle = 'firebrick'
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
 const player = new Player();
+const platform = new Platform();
 
 const keys = {
     right: {
@@ -61,8 +76,10 @@ function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, canvas.width, canvas.height);
     player.update();
+    platform.draw();
     console.log('player vel', player.velocity.x)
 
+    // movement logic
     if (keys.left.pressed || keys.right.pressed) {
         if(Math.abs(player.velocity.x) > 15) {
             player.velocity.x -= player.velocity.x /5
@@ -76,6 +93,12 @@ function animate() {
         } else player.velocity.x -= player.velocity.x / 5
     }
     if (Math.abs(player.velocity.x) < 1.3) player.velocity.x = 0
+
+    // platform position detection
+    if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
+        player.velocity.y = 0
+        player.jumping = false
+    }
 }
 
 animate();
